@@ -1,5 +1,8 @@
 #include <iostream>
+#include <string>
+#include <thread>
 #include <condition_variable>
+
 
 class Question {
 
@@ -13,11 +16,12 @@ class Question {
 
         int student_answer;
 
-        std::condition_variable cv;
+        std::string reason;
 
         Question(int new_first, int new_second);
 
-        bool check();
+        bool check(int time);
 
         void getStudentAnswer();
+
 };

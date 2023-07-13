@@ -1,41 +1,33 @@
 #include <iostream>
 #include <thread>
 #include "timer.hpp"
-#include "random.hpp"
-#include "question.hpp"
 #include <memory>
 #include <vector>
 #include <mutex>
 #include <utility>
 
+// make timer have a unique ptr to a question then change the question every time
+
 int main(int argc, char* argv[]) {
-    
-    RandomNumberGenerator numGen;
-    std::vector<std::unique_ptr<Question>> incorrectQuestions;
+    Timer t;
 
-    int numCorrect = 0;
-    int numQuestions = 0;
-
-    while (true) {
-        
-        std::unique_ptr<Question> question = std::make_unique<Question>(numGen.generate(), numGen.generate());
-        std::cout << question->first << " x " << question->second << " = ";
-        std::thread t1(Question::getStudentAnswer, question.get());
-        std::mutex mtx;
-        std::unique_lock<std::mutex> lck(mtx);
-        while (question->cv.wait_for(lck, std::chrono::seconds(2)) == std::cv_status::timeout) {}
-        t1.join();
-        if (question->check()) {
-            numCorrect++;
+    while (t.numQuestions < atoi(argv[1])) {
+        t.makeNewQuestion();
+        t.askQuestion();
+        //question->getStudentAnswer();
+        if (t.currentQuestion->check(t.questionElapsedTime())) {
+            t.numCorrect++;
         } else {
-            incorrectQuestions.push_back(std::move(question));
+            t.incorrectQuestions.push_back(std::move(t.currentQuestion));
         }
-        numQuestions++;
+        t.numQuestions++;
     }
 
-    std::cout << "Total Score: " << numCorrect / numQuestions << "\n";
+    std::cout << "Total Score: " << (double)t.numCorrect / t.numQuestions << "\n";
     
-    for (int i = 0; i < incorrectQuestions.size(); i++) {
-        std::cout << i << ") " << incorrectQuestions[i]->first << " x " << incorrectQuestions[i]->second << " = \n";
+    for (int i = 0; i < t.incorrectQuestions.size(); i++) {
+        std::cout << i + 1 << ") " << t.incorrectQuestions[i]->first << " x " << t.incorrectQuestions[i]->second << " = " << t.incorrectQuestions[i]->reason << "\n";
     }
+    
+    //t.elapsedTime<void(*)()>(busywork);
 }

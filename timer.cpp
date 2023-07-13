@@ -13,6 +13,10 @@ void Timer::SetTimer(int time) {
     std::cout << "done" << std::endl;
 }
 
-void Timer::stop() {
+void Timer::makeNewQuestion() {
+    currentQuestion = std::make_unique<Question>(numGen.generate(), numGen.generate());
+}
 
+void Timer::askQuestion() {
+    std::cout << currentQuestion->first << " x " << currentQuestion->second << " = ";
 }
