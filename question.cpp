@@ -17,7 +17,7 @@ bool Question::check(int time, int max_time) {
         case '-':
             correct_answer = student_answer == first - second;
             break;
-        case '*':
+        case 'x':
             correct_answer = student_answer == first * second;
             break;
         case '/':

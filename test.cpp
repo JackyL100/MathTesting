@@ -25,17 +25,17 @@ void Test::makeNewQuestion() {
     int second_num;
     switch (operation) {
         case '+':
-        case '*':
-            first_num = numGen.generate();
-            second_num = numGen.generate();
+        case 'x':
+            first_num = numGen.generate(0,10);
+            second_num = numGen.generate(0,10);
             break;
         case '-':
             first_num = numGen.generate(0,10);
             second_num = numGen.generate(0, first_num);
             break;
         case '/':
-            int temp = numGen.generate();
-            second_num = numGen.generate();
+            int temp = numGen.generate(0,10);
+            second_num = numGen.generate(0,10);
             first_num = temp * second_num;
             break;
     }
