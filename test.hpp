@@ -13,11 +13,23 @@
 #include "question.hpp"
 #include "random.hpp"
 
+// level One : only single digit
+// level Two : 2 and single digit
+// level Three: both 2 digit
+
+enum class Level {
+    One, 
+    Two,
+    Three
+};
+
 class Test {
 
     private:
 
         RandomNumberGenerator numGen;
+
+        int min, max;
 
     public:
 
@@ -30,9 +42,11 @@ class Test {
         int numCorrect = 0;
         int numQuestions = 0;
 
+        Level difficulty;
+
         std::unique_ptr<Question> currentQuestion;
 
-        Test(std::string operations, std::string student_name);
+        Test(std::string operations, std::string student_name, int level);
 
         //template<typename T>
         int questionElapsedTime() {

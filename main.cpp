@@ -15,12 +15,11 @@ int main(int argc, char* argv[]) {
     int level = atoi(argv[4]);
     std::string name(argv[1]);
     std::string operations(argv[5]);
-    Test t(operations, name);
+    Test t(operations, name, level);
 
     while (t.numQuestions < atoi(argv[2])) {
         t.makeNewQuestion();
         t.askQuestion();
-        //question->getStudentAnswer();
         if (t.currentQuestion->check(t.questionElapsedTime(), atoi(argv[3]))) {
             t.numCorrect++;
         } else {
@@ -30,13 +29,7 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << "Total Score: " << 100 * (double)t.numCorrect / t.numQuestions << "\n";
-    
-    if (t.incorrectQuestions.size() > 0) std::cout << "Incorrect Questions:\n";
-    for (int i = 0; i < t.incorrectQuestions.size(); i++) {
-        std::cout << i + 1 << ") " << t.incorrectQuestions[i]->first << " x " << t.incorrectQuestions[i]->second << " = " << t.incorrectQuestions[i]->reason << "\n";
-    }
 
-    
     std::ofstream outf {"/Users/jackylei/Desktop/StudentTestData/" + t.student, std::ios::app};
     if (!outf) {
         std::cerr << "File could not be opened for writing\n";
@@ -44,6 +37,25 @@ int main(int argc, char* argv[]) {
     }   
     auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-    outf << "\n" << std::ctime(&end_time) << 100 * (double)t.numCorrect / t.numQuestions << "\n";
+    outf << "\n" << std::ctime(&end_time) << "\nScore: " << 100 * (double)t.numCorrect / t.numQuestions << "\nOperation(s): " << operations << "\nLevel: " << level <<  "\n";
+
+    if (t.incorrectQuestions.size() > 0) std::cout << "Incorrect Questions:\n";
+    for (int i = 0; i < t.incorrectQuestions.size(); i++) {
+        std::string statement = "";
+        statement += std::to_string(i + 1);
+        statement += ") ";
+        statement += std::to_string(t.incorrectQuestions[i]->first);
+        statement += " ";
+        statement += t.incorrectQuestions[i]->operation;
+        statement += " ";
+        statement += std::to_string(t.incorrectQuestions[i]->second);
+        statement += " = ";
+        statement += t.incorrectQuestions[i]->reason + "\n";
+        std::cout << statement;
+        outf << statement;
+    }
+
+    outf << "---------------------------------------";    
+    
     outf.close();
 }
