@@ -4,26 +4,25 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <condition_variable>
 
 
 class Question {
 
     public:
 
-        int first;
+        double first;
 
-        int second;
+        double second;
 
         char operation;
 
         bool correct;
 
-        int student_answer;
+        double student_answer;
 
         std::string reason;
 
-        Question(int new_first, int new_second, char op);
+        Question(double new_first, double new_second, char op);
 
         bool check(int time, int max_time);
 

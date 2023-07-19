@@ -61,7 +61,11 @@ void Test::makeNewQuestion() {
 }
 
 void Test::askQuestion() {
-    std::cout << currentQuestion->first << " " << currentQuestion->operation << " " << currentQuestion->second << " = ";
+    if (currentQuestion->operation == 'r') {
+        std::cout << "sqrt(" << currentQuestion->first << ") = ";
+    } else {
+        std::cout << currentQuestion->first << " " << currentQuestion->operation << " " << currentQuestion->second << " = ";
+    }
 }
 
 void Test::printIncorrectQuestions() {
