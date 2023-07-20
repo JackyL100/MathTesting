@@ -29,7 +29,7 @@ class Test {
 
         RandomNumberGenerator numGen;
 
-        int min, max;
+        std::vector<int> numRanges;
 
     public:
 
@@ -62,6 +62,8 @@ class Test {
         void askQuestion();
 
         void printIncorrectQuestions();
+
+        void setCustomRange();
 };
 
 #endif

@@ -8,25 +8,28 @@
 #include <utility>
 #include <fstream>
 
-// argv order: student name, number of questions, time per question, level, operation(s)
+// argv order: student name, number of questions, time per question, level, operation(s), set range flag
+
 
 void getInfo(std::vector<std::string>& arg) {
     std::cout << "Who? ";
-    std::cin >> arg[0];
-    std::cout << "How many questions? ";
     std::cin >> arg[1];
-    std::cout << "Time Limit? ";
+    std::cout << "How many questions? ";
     std::cin >> arg[2];
-    std::cout << "Difficulty? ";
+    std::cout << "Time Limit? ";
     std::cin >> arg[3];
-    std::cout << "Operations? ";
+    std::cout << "Difficulty? ";
     std::cin >> arg[4];
+    std::cout << "Operations? ";
+    std::cin >> arg[5];
+    std::cout << "Would you like to set a range for the numbers? ";
+    std::cin >> arg[6];
 }
 
 int main(int argc, char* argv[]) {
-    std::vector<std::string> new_argv(6);
+    std::vector<std::string> new_argv(7);
 
-    if (argc != 6) {
+    if (argc != 7) {
         getInfo(new_argv);
     } else {
         for (int i = 0; i < argc; i++) {
@@ -39,6 +42,10 @@ int main(int argc, char* argv[]) {
     const std::string operations = new_argv[5];
     const int time_limit = std::stoi(new_argv[3]);
     Test t(operations, name, level);
+
+    if (new_argv[6] == "y") {
+        t.setCustomRange();
+    }
 
     while (t.numQuestions < std::stoi(new_argv[2])) {
         t.makeNewQuestion();

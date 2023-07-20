@@ -20,18 +20,24 @@ Test::Test(std::string operations, std::string student_name, int level) {
     switch (level) {
         case 1:
             difficulty = Level::One;
-            min = 0;
-            max = 12;
+            numRanges[0] = 0;
+            numRanges[1] = 12;
+            numRanges[2] = 0;
+            numRanges[3] = 12;
             break;
         case 2:
             difficulty = Level::Two;
-            min = 0;
-            max = 20;
+            numRanges[0] = 0;
+            numRanges[1] = 20;
+            numRanges[2] = 0;
+            numRanges[3] = 20;
             break;
         case 3: 
             difficulty = Level::Three;
-            min = 10;
-            max = 20;
+            numRanges[0] = 10;
+            numRanges[1] = 20;
+            numRanges[2] = 10;
+            numRanges[3] = 20;
             break;
     }
 }
@@ -44,16 +50,16 @@ void Test::makeNewQuestion() {
     switch (operation) {
         case '+':
         case 'x':
-            first_num = numGen.generate(min, max);
-            second_num = numGen.generate(min, max);
+            first_num = numGen.generate(numRanges[0], numRanges[1]);
+            second_num = numGen.generate(numRanges[2], numRanges[3]);
             break;
         case '-':
-            first_num = numGen.generate(min, max);
-            second_num = numGen.generate(min, first_num);
+            first_num = numGen.generate(numRanges[0], numRanges[1]);
+            second_num = numGen.generate(numRanges[2], first_num);
             break;
         case '/':
-            int temp = numGen.generate(min > 0 ? min : 1, max);
-            second_num = numGen.generate(min > 0 ? min : 1, max);
+            int temp = numGen.generate(numRanges[0] > 0 ? numRanges[0] : 1, numRanges[1]);
+            second_num = numGen.generate(numRanges[2] > 0 ? numRanges[2] : 1, numRanges[3]);
             first_num = temp * second_num;
             break;
     }
@@ -73,4 +79,9 @@ void Test::printIncorrectQuestions() {
     for (int i = 0; i < incorrectQuestions.size(); i++) {
         std::cout << i + 1 << ") " << incorrectQuestions[i]->first << " x " << incorrectQuestions[i]->second << " = " << incorrectQuestions[i]->reason << "\n";
     }
+}
+
+void Test::setCustomRange() {
+    std::cout << "Enter new range: ";
+    std::cin >> numRanges[0] >> numRanges[1] >> numRanges[2] >> numRanges[3];
 }
