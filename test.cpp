@@ -17,6 +17,7 @@ Test::Test(std::string operations, std::string student_name, int level) {
                 possibleOperations += "x";
         }
     }
+    numRanges.resize(4);
     switch (level) {
         case 1:
             difficulty = Level::One;
@@ -40,6 +41,7 @@ Test::Test(std::string operations, std::string student_name, int level) {
             numRanges[3] = 20;
             break;
     }
+
 }
 
 void Test::makeNewQuestion() {

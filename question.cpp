@@ -38,6 +38,6 @@ bool Question::check(int time, int max_time) {
 
 void Question::getStudentAnswer() {
     std::string answer;
-    std::getline(std::cin, answer);
+    std::cin >> answer;
     student_answer = answer.empty() ? -1 : std::stoi(answer);
 }

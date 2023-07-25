@@ -26,6 +26,10 @@ void getInfo(std::vector<std::string>& arg) {
     std::cin >> arg[6];
 }
 
+bool isWhole(double num) {
+    return num - (int)num == 0.0;
+}
+
 int main(int argc, char* argv[]) {
     std::vector<std::string> new_argv(7);
 
@@ -42,7 +46,6 @@ int main(int argc, char* argv[]) {
     const std::string operations = new_argv[5];
     const int time_limit = std::stoi(new_argv[3]);
     Test t(operations, name, level);
-
     if (new_argv[6] == "y") {
         t.setCustomRange();
     }
@@ -74,11 +77,19 @@ int main(int argc, char* argv[]) {
         std::string statement = "";
         statement += std::to_string(i + 1);
         statement += ") ";
-        statement += std::to_string(t.incorrectQuestions[i]->first);
+        if (isWhole(t.incorrectQuestions[i]->first)) {
+            statement += std::to_string((int)t.incorrectQuestions[i]->first);
+        } else {
+            statement += std::to_string(t.incorrectQuestions[i]->first);
+        }
         statement += " ";
         statement += t.incorrectQuestions[i]->operation;
         statement += " ";
-        statement += std::to_string(t.incorrectQuestions[i]->second);
+        if (isWhole(t.incorrectQuestions[i]->first)) {
+            statement += std::to_string((int)t.incorrectQuestions[i]->second);
+        } else {
+            statement += std::to_string(t.incorrectQuestions[i]->second);
+        }
         statement += " = ";
         statement += t.incorrectQuestions[i]->reason + "\n";
         std::cout << statement;
